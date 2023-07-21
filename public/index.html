@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XFeedback Api</title>
+    <link rel="stylesheet" href="/css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <center id="header">
+        <h1>X Feedback Api</h1>
+    </center>
+    <div class="hblocking"></div>
+    <center>
+        <h2>“Feature”</h2>
+        <hr>
+        <h3>Speed · Convenience</h3>
+        <p>You can simply create your api key and quickly let users submit their feedback and review them in a few steps.</p>
+        <hr>
+        <h3>No login required</h3>
+        <p>You can use the api without having to login to your website.</p>
+        <hr>
+        <h3>Excellent code quality</h3>
+        <p>After numerous tests, the code is guaranteed to be error-free.</p>
+        <p>In addition, the code is simple, the access speed is extremely fast.</p>
+    </center>
+    <svg class="wave" viewBox="0 0 961 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_34_10)">
+        <path d="M-74 105.389C150.168 57.1313 271.117 59.2884 480 105.389C697.873 152.643 819.182 153.097 1034 105.389" stroke="#7B9CFF" stroke-width="9"/>
+        <path d="M-74 105.389C150.168 57.1313 271.117 59.2884 480 105.389C697.873 152.643 819.182 153.097 1034 105.389" stroke="#7B9CFF" stroke-width="9"/>
+        </g>
+        </svg>
+        
+    <div class="wblocking"></div>
+    <center>
+        <h2>“Steps”</h2>
+        <hr>
+        <p>1. Create an API key. </p>
+        <button onclick="top.location = '/create'">Create</button>
+        <hr>
+        <p>2. Let users send you feedback. </p>
+        <input type="text" name="key" id="key" placeholder="Api Key">
+        <br>
+        <button onclick="document.getElementById('rt').value = 'https://xfeedback.herokuapp.com/send?topic=[TOPIC]&user=[USERNAME]&message=[BODY]&api=' + document.getElementById('key').value;">Send</button>
+        <br>
+        <input type="text" name="return" id="rt" readonly placeholder="Press the Send button">
+        <hr>
+        <p>3. View all feedback. </p>
+        <input type="text" name="pw" id="pw" placeholder="Password">
+        <br>
+        <button onclick="top.location = '/view?' + document.getElementById('key').value + '&' + document.getElementById('pw').value;">View</button>
+    </center>
+    <center>
+        <h2>Feedback to us</h2>
+        <hr>
+        <input type="text" name="fb" id="fb" placeholder="The feedback message">
+        <br>
+        <button onclick="sendfb();">Send</button>
+        <hr>
+        <p>Check out our feedback</p>
+        <div id="fbs">
+        </div>
+    </center>
+    <svg class="wave" viewBox="0 0 961 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_39_9)">
+        <path d="M1035 105.389C810.832 57.1313 689.883 59.2884 481 105.389C263.127 152.643 141.818 153.097 -73 105.389" stroke="#F1592A" stroke-width="9"/>
+        </g>
+        <defs>
+        <clipPath id="clip0_39_9">
+        <rect width="961" height="210" fill="white" transform="matrix(-1 0 0 1 961 0)"/>
+        </clipPath>
+        </defs>
+        </svg>
+        
+        
+    <div class="wblocking"></div>
+    <center>
+        <p>Click
+            <g onclick="top.location = '/docs'">here</g> continue reading documentation</p>
+    </center>
+    <center>
+        <tr><br><br>
+            <a style="color:rgba(0, 0, 0, 0.671);" href="https://alphabrate.github.io/">alphabrate</a>
+            <air></air>
+            <br>
+            <a style="color:rgb(0, 0, 0);">© Xchuang, 2022. All Rights Reserved.</a>
+            <hr><img draggable="false" src="https://starwes.github.io/assets/XC.svg" height="60px" style="background:white; padding:20px;"><br><text>Part of alphabrate(Xcfo) family.</text>
+            <br>
+        </tr>
+    </center>
+    <script>
+        var sendfb = () => {
+            var url = "/send?topic=[TOPIC]&user=[USERNAME]&message=[BODY]&api=psvPWNBE8mVWQErhPwt8jDXWKqRFtLJKrz7F1WvwweCMgFOO3cfcyj-wZ5O0A3dY"
+            url = url.replace("[TOPIC]", "Feedback");
+            url = url.replace("[USERNAME]", "Anonymous");
+            url = url.replace("[BODY]", document.getElementById("fb").value);
+            var xhr = new XMLHttpRequest();
+            console.log(url);
+            xhr.open("GET", url, true);
+            xhr.send();
+            document.getElementById("fb").value = "Thank you for your feedback!";
+            location.reload();
+        }
+        var json;
+        var getfb = () => {
+            var url = "/view/json/?psvPWNBE8mVWQErhPwt8jDXWKqRFtLJKrz7F1WvwweCMgFOO3cfcyj-wZ5O0A3dY&Yzx2007625@"
+            $.get(url, (data) => {
+                json = data;
+                console.log(data);
+                json = JSON.parse(json).data;
+                var fbs = document.getElementById("fbs");
+                // append the feedbacks
+                // the newest feedback is at the end of the array
+                // the newest feedback append first
+                // only append 5 feedbacks
+                for (var i = json.length - 1; i >= json.length - 12; i--) {
+                    var feedback = document.createElement("div");
+                    feedback.className = "feedback";
+                    feedback.innerHTML = "<p>" + json[i].message + "</p><hr><p>" + json[i].date + "</p>";
+                    fbs.appendChild(feedback);
+                }
+            });
+        }
+
+        getfb();
+    </script>
+</body>
+
+</html>
